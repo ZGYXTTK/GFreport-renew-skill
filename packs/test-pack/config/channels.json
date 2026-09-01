@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "last_verified": {
+    "上交所": "2026-08-27",
+    "深交所": "2026-08-27",
+    "证监会": "2026-08-27",
+    "北交所": "2026-08-27（WAF 拦截，不可用）",
+    "巨潮": "2026-08-27",
+    "hkexnews": "2026-08-27",
+    "mcp__qveris__discover": "2026-08-27",
+    "mcp__mx-ds-mcp__mx_ashare_finance_data": "2026-08-27",
+    "mcp__hexin-ifind-ds-stock-mcp__get_stock_summary": "2026-08-27",
+    "mcp__wind_stock_data__get_stock_basicinfo": "2026-08-27",
+    "mcp__itjuzi-mcp__search_events": "2026-08-27",
+    "mcp__tavily-search__tavily_search": "2026-08-27",
+    "mcp__qcc-document__parse_document": "2026-08-27",
+    "subagent": "2026-08-27",
+    "workflow": "2026-08-27"
+  }
+}

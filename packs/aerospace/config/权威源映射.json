@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "权威源映射": {
+    "法定代表人": ["mcp__qcc-company__get_company_registration_info", "国家企业信用信息公示系统"],
+    "实控人": ["mcp__qcc-company__get_actual_controller", "上市公司年报"],
+    "融资金额": ["公司公告/招股书", "mcp__itjuzi-mcp__search_events", "权威媒体"],
+    "估值": ["公司公告/招股书", "mcp__itjuzi-mcp__search_events", "权威媒体"],
+    "发射次数": ["mcp__tavily-search__tavily_search", "mcp__hexin-ifind-ds-news-mcp__search_news", "我们的太空/航天科技集团官方"],
+    "卫星数量": ["mcp__tavily-search__tavily_search", "官方发布"],
+    "在审阶段": ["交易所审核官网", "iFinD", "公司公告"],
+    "IPO在审家数": ["上交所commonExcelKcb", "深交所IPO", "北交所infoResult", "mcp__hexin-ifind-ds-stock-mcp__get_stock_summary"],
+    "辅导备案": ["证监会eid.csrc.gov.cn", "mcp__hexin-ifind-ds-stock-mcp__get_stock_summary"],
+    "再融资": ["上交所再融资", "深交所再融资", "公司公告"],
+    "并购重组": ["上交所并购重组", "深交所并购", "公司公告"],
+    "板块涨跌幅": ["mcp__stock-sdk__get_history_kline", "mcp__wind_stock_data__get_stock_kline"],
+    "行情": ["mcp__stock-sdk__get_a_share_quotes", "mcp__hexin-ifind-ds-stock-mcp__get_stock_performance", "mcp__wind_stock_data__get_stock_price_indicators"],
+    "财务数据": ["上市公司财报", "mcp__hexin-ifind-ds-stock-mcp__get_stock_financials", "mcp__wind_stock_data__get_stock_fundamentals"],
+    "估值分位": ["mcp__hexin-ifind-ds-stock-mcp__get_stock_financials", "mcp__wind_stock_data__get_stock_fundamentals"],
+    "政策": ["民航局/工信部/国防科工局官网", "mcp__tavily-search__tavily_search", "权威媒体"],
+    "重大合同": ["上市公司公告", "巨潮资讯(cninfo)", "mcp__qcc-company__get_news_sentiment"]
+  },
+  "通用降级": [
+    "官方一手源（民航局/工信部/国防科工局/交易所/证监会/公司公告/招股书）",
+    "权威金融数据（iFinD/Wind/akshare/tushare）",
+    "专业数据（企查查工商/IT 桔子）",
+    "权威媒体报道（上海证券报/财联社/第一财经/界面）"
+  ],
+  "冲突处理": {
+    "规则": "按字段权威源映射取高优先级源；同级别冲突以最新披露日期为准",
+    "记录": "冲突内容 + 采用源 + 理由 写入 溯源.jsonl 的 conflict 字段",
+    "兜底": "官方源拿不到时，用次一级源并标注『未能与官方源交叉验证』"
+  },
+  "降级链": {
+    "IPO在审": "交易所审核官网 → mx-ds-mcp / iFinD → QVeris → 标注无法获取",
+    "辅导备案": "证监会官网(eid.csrc.gov.cn, http) → iFinD辅导备案 → 标注无法获取",
+    "港股发行/在审": "披露易 / mcp-hkexnews → mx_hk_finance_data / iFinD → QVeris → 推算+标注不确定性",
+    "再融资/并购": "交易所审核官网 → mx-ds-mcp / iFinD → QVeris → 标注无法获取",
+    "发射统计": "我们的太空/航天科技集团 → 权威媒体（上海证券报/财联社） → 标注无法获取",
+    "卫星数量": "官方发布 → 媒体（财联社/界面） → 标注无法获取",
+    "一级市场融资": "IT桔子(itjuzi search_events) → 财经媒体检索 / mx_finance_search_news → QVeris → 标注无法获取",
+    "法定代表人": "qcc → 巨潮(cninfo) / 招股书 → QVeris → 标注无法获取",
+    "财务数据": "上市公司财报 / iFinD / Wind → mx_ashare_finance_data / qcc财务 → QVeris → 源文件标财报期",
+    "政策": "民航局/工信部官网 → mx_finance_search_news / web_search → 标注无法获取",
+    "板块行情/估值": "Wind / iFinD → stock-sdk / akshare / tushare → QVeris → 标注无法获取"
+  }
+}

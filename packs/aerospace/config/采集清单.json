@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "截至日期": "2026-08-31",
+  "items": [
+    {
+      "id": "航空航天行业政策与合同",
+      "类型": "时点型",
+      "通道": [
+        "mcp__tavily-search__tavily_search",
+        "mcp__hexin-ifind-ds-news-mcp__search_news",
+        "mcp__hexin-ifind-ds-news-mcp__search_notice"
+      ],
+      "口径": "民航局/工信部/国防科工局/低空办/省级政府发布的政策、合同、补贴；按事件日期升序",
+      "输出": "航空航天行业政策与合同-2026-08.jsonl"
+    },
+    {
+      "id": "A股IPO在审-航空航天赛道",
+      "类型": "时点型",
+      "通道": [
+        "上交所commonExcelKcb",
+        "深交所IPO",
+        "北交所infoResult"
+      ],
+      "口径": "在审，按申万行业分类筛选航空航天+军工+通信(卫星通信)",
+      "输出": "A股IPO在审-航空航天-2026-08.csv"
+    },
+    {
+      "id": "A股IPO辅导备案-航空航天赛道",
+      "类型": "时点型",
+      "通道": [
+        "证监会eid.csrc.gov.cn",
+        "mcp__hexin-ifind-ds-stock-mcp__get_stock_summary"
+      ],
+      "口径": "辅导备案，按申万行业筛选",
+      "输出": "A股辅导备案-航空航天-2026-08.csv"
+    },
+    {
+      "id": "A股再融资-航空航天赛道",
+      "类型": "时点型",
+      "通道": [
+        "上交所再融资",
+        "深交所再融资"
+      ],
+      "口径": "在审/已发，按行业筛选",
+      "输出": "A股再融资-航空航天-2026-08.csv"
+    },
+    {
+      "id": "A股并购重组-航空航天赛道",
+      "类型": "时点型",
+      "通道": [
+        "上交所并购重组",
+        "深交所并购"
+      ],
+      "口径": "在审/已完结，按行业筛选",
+      "输出": "A股并购重组-航空航天-2026-08.csv"
+    },
+    {
+      "id": "二级市场-军工/航空航天指数表现",
+      "类型": "时点型",
+      "通道": [
+        "mcp__stock-sdk__get_history_kline",
+        "mcp__stock-sdk__get_a_share_quotes",
+        "mcp__wind_stock_data__get_stock_kline"
+      ],
+      "口径": "国防军工指数(399959)、中证国防(399973)、航空航天主题指数 8 月涨跌/估值百分位",
+      "输出": "二级市场-军工/航空航天指数-2026-08.csv"
+    },
+    {
+      "id": "二级市场-核心标的行情",
+      "类型": "时点型",
+      "通道": [
+        "mcp__hexin-ifind-ds-stock-mcp__get_stock_performance",
+        "mcp__stock-sdk__get_a_share_quotes"
+      ],
+      "口径": "标的池核心 A 股 8 月区间涨跌幅/换手率/估值分位",
+      "输出": "二级市场-核心标的-2026-08.csv"
+    },
+    {
+      "id": "非上市一级市场融资-商业航天",
+      "类型": "时点型",
+      "通道": [
+        "mcp__itjuzi-mcp__search_events",
+        "mcp__itjuzi-mcp__aggregate_funding_by_tags",
+        "mcp__tavily-search__tavily_search"
+      ],
+      "口径": "公告披露口径，按『商业航天/低空经济/eVTOL』三标签聚合 8 月融资",
+      "输出": "非上市融资-商业航天-2026-08.jsonl"
+    },
+    {
+      "id": "公司公告-核心标的事件",
+      "类型": "时点型",
+      "通道": [
+        "mcp__cninfo__download_annual_reports_tool",
+        "mcp__qcc-company__get_financing_records"
+      ],
+      "口径": "核心标的 8 月公告披露（合同/中标/融资/技术验证）",
+      "输出": "公司公告-核心标的-2026-08.jsonl"
+    },
+    {
+      "id": "工商信息-未上市标的",
+      "类型": "半结构型",
+      "通道": [
+        "mcp__qcc-company__get_company_profile",
+        "mcp__qcc-company__get_company_registration_info"
+      ],
+      "口径": "标的池未上市标的核心工商信息（注册资本/法定代表人/成立日期/股东）",
+      "输出": "工商信息-未上市标的-2026-08.csv"
+    },
+    {
+      "id": "投行案例-星图测控跟踪",
+      "类型": "结构型",
+      "通道": [
+        "mcp__hexin-ifind-ds-stock-mcp__get_stock_summary",
+        "mcp__hexin-ifind-ds-news-mcp__search_news",
+        "mcp__tavily-search__tavily_search"
+      ],
+      "口径": "上市进展/审核反馈/财报披露；与上一期对比",
+      "输出": "投行案例-星图测控-2026-08.jsonl"
+    }
+  ]
+}
