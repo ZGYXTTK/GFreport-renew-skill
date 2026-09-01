@@ -125,8 +125,8 @@ def main():
         lines += [
             '',
             '## 与上期月报对比（仅 8 月新词）',
-            f'新月报独有 8 月词：{", " .join(new_only) if new_only else "（无）"}',
-            f'新月报缺失（仅上期有）：{", " .join(old_only) if old_only else "（无）"}',
+            f'新月报独有 8 月词：{", ".join(new_only) if new_only else "（无）"}',
+            f'新月报缺失（仅上期有）：{", ".join(old_only) if old_only else "（无）"}',
         ]
 
     passed = hit_rate >= args.threshold
