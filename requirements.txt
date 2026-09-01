@@ -1,0 +1,16 @@
+# gfreport-renew-skill · Python 依赖（v0.1.0）
+# 安装：pip install -r requirements.txt
+
+# 核心：docx 读写
+python-docx>=0.8.11
+
+# 配置 schema 强校验
+jsonschema>=4.20
+
+# HTTP 通道自检
+requests>=2.31
+
+# 数据采集（pandas / xlrd 用于上交所 .xls 解析）
+pandas>=2.0
+xlrd==1.2.0       # 上交所返回老式 OLE2 .xls，xlrd 2.0+ 已不支持
+openpyxl>=3.1
