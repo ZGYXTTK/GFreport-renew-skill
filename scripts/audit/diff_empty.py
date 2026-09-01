@@ -75,7 +75,7 @@ def main():
         if not a_cells:
             continue
         if not b_cells:
-            hard.append(f'新⽬报缺失键：{k}')
+            hard.append(f'\u65b0\u2f49\u62a5\u7f3a\u5931\u952e\uff1a{k}')
             continue
         # 旧有值 → 新空值
         for i in range(min(len(a_cells), len(b_cells))):
