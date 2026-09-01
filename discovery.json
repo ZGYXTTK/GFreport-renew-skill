@@ -1,0 +1,191 @@
+{
+  "name": "gfreport-renew-skill",
+  "version": "0.2.0",
+  "repository": "https://github.com/ZGYXTTK/GFreport-renew-skill",
+  "support_tier": "community",
+  "question": "用户给了一份上期行业月报 docx + 一个目标月份 (YYYY-MM)，能否端到端产出当月月报？",
+  "trigger": [
+    "用户提到「行业月报更新」「月报更新」「生成最新月报」「更新月报」「广发月报」「重新生成月报」「generate monthly report」",
+    "用户提供旧月报 docx 路径并要求按最新数据重做"
+  ],
+  "decision": [
+    "若用户提供旧月报路径 + 目标月份 → 启动 10 步闭环；缺一则拒启动并提示用户补传",
+    "若用户要求周报/季报/年报 → 拒启动（频率不符）",
+    "若用户要求专题对比 → 转交 专题研究.skill/，本 Skill 不实现"
+  ],
+  "evidence": [
+    "旧月报 .docx 必须存在且可读（python-docx 打开不报错）",
+    "config/采集清单.json 至少含 1 个 时点型 采集项",
+    "config/tool_registry.json 至少 1 个 kind=registry 源（强制 discover）",
+    "scripts/channel_health.py 输出 ✅/🟡/❌ 三态结果"
+  ],
+  "success_measure": "11 道门禁（01-11）全 ✅（或经 --soft-gates 显式降级并转盲审）+ 哈希绑定一致（门禁校验对象 = 交付 docx）+ archive_to_workspace.py 已执行 + 新月报 + 变更摘要 + 溯源.jsonl 出现在 <工作区>/<产品>_产出/",
+  "outcome": "在 sell-side 行业分析师岗位，按月更新覆盖某一行业的资本市场动态月报",
+  "intended_users": [
+    "Sell-side 行业分析师（航空航天/机器人/新能源/医药 等赛道）",
+    "卖方研究助理（按月执行月报更新）",
+    "买方投研团队（订阅同类月报，需重做时复用本 Skill）"
+  ],
+  "input_types": [
+    "旧月报 .docx（结构模板 + 口径参考）",
+    "目标月份 YYYY-MM",
+    "目标工作区路径（可选）",
+    "行业包名（可选，默认 _default）"
+  ],
+  "output_artifacts": [
+    "新月报 .docx（保留格式）",
+    "变更摘要.md（异常波动/新增/移除标的）",
+    "源文件 CSVs（按采集清单）",
+    "溯源.jsonl（带锚点）",
+    "通道实测.jsonl（MCP/agent 实测回写）",
+    "门禁报告 9 份",
+    "SUMMARY.md（单页汇总）",
+    "manifest.json（运行契约）"
+  ],
+  "use_cases": [
+    "每月固定执行：把上月月报按当月最新数据重做一份（最常用，占 80%）",
+    "新行业首期：从旧月报反推口径建新行业 pack",
+    "新发行人纳入：在原 pack 标的池补 1 家",
+    "审计追溯：基于溯源.jsonl + 源文件回读任意数字"
+  ],
+  "examples": [
+    { "invocation": "/gfreport-renew-skill --old ./上月.docx --ym 2026-08 --ws D:\\工作区", "description": "跑一次完整 10 步闭环，产出新月报到工作区" },
+    { "invocation": "/gfreport-renew-skill --old ./上月.docx --ym 2026-08 --anchor ./上月.docx --pack aerospace", "description": "用输入旧月报所在目录反推工作区，指定 aerospace 行业包" },
+    { "invocation": "/gfreport-renew-skill --old ./上月.docx --ym 2026-08 --resume", "description": "断点续跑：跳过已通过门禁" }
+  ],
+  "permissions_systems": [
+    "读：旧月报 docx、config/*、packs/*、references/*、templates/*、evals/*",
+    "写：runs/<run-id>/（input/output/logs/download/sources/reviews）",
+    "写：<工作区>/<产品>_产出/（archive_to_workspace.py 强制）",
+    "写：state/渠道历史.jsonl（跨期累加）",
+    "写：下载资料/<章节+来源>.csv",
+    "网络：10 个公开交易所/监管 HTTP（endpoints.json 声明）",
+    "网络：9 个 MCP（mx-ds-mcp / hexin-ifind / wind / qcc / itjuzi / qcc-document / qcc-tender / tavily-search）需 Agent 实测回写",
+    "网络：2 个 agent 通道（subagent / workflow）需 Agent 实测回写",
+    "读环境变量：DSH_WORKSPACE / DSH_SESSION_JSONL / PYTHONIOENCODING / PYTHONUTF8"
+  ],
+  "typical_completion_time": "30-90 分钟（取决于行业、采集项数量、子 Agent 通道健康度）",
+  "compatibility": {
+    "declared": ["claude-code", "cursor", "gemini", "kiro", "goose", "opencode", "cline", "roo", "kilo", "factory", "antigravity", "codex-cli"],
+    "certified": []
+  },
+  "environment": {
+    "documentation_sources": [
+      "SKILL.md（主流程 + Gotchas）",
+      "AGENTS.md（companion for tools reading AGENTS.md first）",
+      "references/pipeline.md（10 步详解）",
+      "references/discipline.md（P0/P1/P2）",
+      "references/gotchas.md（12 条避坑）",
+      "references/eval.md（回归测试）"
+    ],
+    "data_sources": [
+      "config/endpoints.json（10 HTTP + 9 MCP + 2 agent 通道）",
+      "config/tool_registry.json（11 类已知信息源）",
+      "config/采集清单.json（每月改「截至日期」）",
+      "config/权威源映射.json（字段维度降级链）",
+      "config/口径字典.json / 时点对齐.json / 标的池.json",
+      "config/_schemas/*.schema.json（jsonschema 强校验）"
+    ],
+    "required_capabilities": [
+      "Read old docx via python-docx",
+      "Run 11 gate scripts in scripts/audit/",
+      "Invoke MCP servers (mx-ds-mcp / hexin-ifind-ds / qcc / itjuzi / qcc-document / tavily-search)",
+      "Run subagent / workflow channels for research tasks (Step 5 fan-out + Step 8 blind review)"
+    ],
+    "readiness_checks": [
+      "旧月报 .docx 存在且 python-docx 打开不报错",
+      "config/采集清单.json 含至少 1 个 时点型 项",
+      "config/tool_registry.json 含至少 1 个 kind=registry 源",
+      "scripts/channel_health.py 输出可解析的三态结果"
+    ]
+  },
+  "risk": {
+    "tier": "moderate",
+    "permissions": [
+      "Read user's local docx and config files",
+      "Write to runs/<run-id>/",
+      "Write to user's current workspace (强制 archive_to_workspace.py)",
+      "HTTP GET/POST to 10 public exchange/SRO endpoints (declared in endpoints.json)",
+      "Invoke MCP servers with Agent-side smoke test"
+    ],
+    "mutation_boundary": "approval-required",
+    "approval_required": ["archive_to_workspace.py 强制动作；拒绝即视为未交付（P0-11）"]
+  },
+  "software_mutation": {
+    "applies": false,
+    "reason": "本 Skill 不创建或修改应用代码；仅消费/产出文档与数据。所有变更限定在 runs/ + 下载资料/ + 工作区产出/。"
+  },
+  "data_interfaces": {
+    "applies": true,
+    "interface_types": ["structured-file", "mcp-tool", "api"],
+    "authoritative_sources": [
+      "config/采集清单.json（pack 作者维护）",
+      "config/tool_registry.json（skill maintainer 维护）",
+      "config/endpoints.json（skill maintainer 维护）",
+      "templates/溯源.schema.json（运行期写入）"
+    ],
+    "entities": [
+      "采集项（id / 类型 / 通道 / 口径 / 输出）",
+      "溯源记录（cell / value / source_file / url / source_key / source_field / status）",
+      "通道（http / mcp / agent）"
+    ],
+    "identifiers": ["cell (例如 表8-R2)", "source_key (公司名或标的 ID)", "run_id (YYYY-MM-YYYYMMDDHHMMSS)"],
+    "relationships": ["通道 → 采集项 → 溯源 → 月报单元格（链式锚点）"],
+    "field_semantics": ["value=月报呈现值；source_field=源 CSV 表头；status=verified/cross-checked/gap"],
+    "invariants": [
+      "每条溯源必须有 source_file 或 url",
+      "数值类必须有 source_key + source_field 或 source_row + source_field",
+      "每个采集项必须有至少 1 个通道名匹配 endpoints.json"
+    ],
+    "freshness_and_pagination": [
+      "channels.json 的 last_verified 不超过 90 天",
+      "通道实测.jsonl 的 tested_at 不超过 35 天（max_age_days）"
+    ],
+    "nullability": [
+      "value 可为 null（gap 状态）",
+      "status=gap 时跳过 verify_value 比对"
+    ],
+    "readiness_checks": [
+      "jsonschema 校验 config/*.json 通过",
+      "old docx 存在且可被 python-docx 打开"
+    ]
+  },
+  "semantic_contract": {
+    "applies": true,
+    "definitions": [
+      {
+        "id": "monthly-industry-report",
+        "version": "1.0.0",
+        "definition": "Sell-side 行业分析师按月产出的资本市场动态月报，含 IPO 在审/再融资/并购/辅导备案/一级市场融资/政策与事件/财务摘要",
+        "scope": "单行业 + 单月（YYYY-MM）",
+        "grain": "单元格级 cell + run_id",
+        "unit": "月报一份（一份 .docx + 一份 .md 变更摘要 + 一份 .jsonl 溯源）",
+        "source_precedence": ["交易所/证监会官网一手", "iFinD/Wind", "企查查工商/IT 桔子", "媒体/新闻"],
+        "owner": "sell-side 行业分析师",
+        "valid_from": "2026-08-31",
+        "last_reviewed": "2026-08-31",
+        "review_interval_days": 60
+      }
+    ],
+    "dependencies": [
+      { "id": "monthly-industry-report", "version": "1.0.0" }
+    ],
+    "ambiguity": {
+      "allowed_outcomes": ["answer", "ask", "refuse_unknown"],
+      "unresolved_action": "ask",
+      "clarification": "若用户提供旧月报 docx 路径但缺目标月份，或月报缺关键数据源，Agent 必须询问用户补传，不允许以默认值代入。"
+    }
+  },
+  "routing_tests": {
+    "should_trigger": [
+      "把上期航空航天行业月报按 8 月最新数据重新做一份",
+      "航空航天 7 月月报已用旧模板，请更新到 8 月",
+      "Update the August robotics monthly report with this prior docx"
+    ],
+    "should_not_trigger": [
+      "做一份周报",
+      "专题研究宇树 vs 越疆",
+      "无旧月报路径只给主题"
+    ]
+  }
+}

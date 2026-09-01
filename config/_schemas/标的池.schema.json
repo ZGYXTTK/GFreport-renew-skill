@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "标的池.json",
+  "description": "赛道白名单（半结构型只核变化用）",
+  "type": "object",
+  "required": ["version", "行业", "公司"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "行业": { "type": "string", "minLength": 1 },
+    "公司": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "统一社会信用代码"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "统一社会信用代码": { "type": "string" },
+          "上市状态": { "enum": ["已上市", "未上市", "辅导备案", "在审", "已退市"] },
+          "板块": { "type": "string" },
+          "赛道": { "type": "string" },
+          "加入日期": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+        }
+      }
+    }
+  }
+}
