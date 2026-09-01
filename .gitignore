@@ -1,0 +1,29 @@
+# ---- 运行产物（每期已强制归档到用户工作区，入库即违规）----
+runs/
+state/
+下载资料/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- 本地运行痕迹 ----
+*.log
+*.patch.json
+.gate_state.tmp
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*
+
+# fixtures 产物不入库（二进制 docx；由 evals/cases/make_fixtures.py 一键再生）
+evals/cases/fixtures/*.docx
+
+# 月度口径快照为运行痕迹（snapshot.py 每期自动生成）
+config/口径快照/
