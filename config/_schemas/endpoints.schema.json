@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "endpoints.json",
+  "description": "通道端点配置：HTTP 直探 + MCP/agent 实测回写",
+  "type": "object",
+  "required": ["version", "http", "mcp", "agent"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "http": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "url", "method"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" },
+          "method": { "enum": ["GET", "POST"] },
+          "kind": { "enum": ["xls", "json", "html", "csv"] },
+          "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+          "body": { "type": "object" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "mcp": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "smoke_hint"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "pattern": "^mcp__" },
+          "smoke_hint": { "type": "string", "minLength": 1 },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "agent": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "smoke_hint"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "enum": ["subagent", "workflow"] },
+          "smoke_hint": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

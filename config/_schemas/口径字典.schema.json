@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "口径字典.json",
+  "description": "字段命名/统计窗口/币种/单位的一致性定义",
+  "type": "object",
+  "required": ["version", "字段"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "字段": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["类型", "说明"],
+        "additionalProperties": false,
+        "properties": {
+          "类型": { "enum": ["文本", "数值", "枚举", "日期", "百分比"] },
+          "格式": { "type": "string" },
+          "币种": { "enum": ["CNY", "USD", "HKD", "EUR", "JPY"] },
+          "单位": { "type": "string" },
+          "统计窗口": { "type": "string" },
+          "说明": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "命名规范": {
+      "type": "object",
+      "description": "字段命名的统一规则（如法人统一工商名）",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

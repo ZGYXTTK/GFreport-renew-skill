@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "权威源映射.json",
+  "description": "按字段维度确定权威源 + 通用降级 + 冲突处理",
+  "type": "object",
+  "required": ["version", "权威源映射", "通用降级", "冲突处理", "降级链"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "权威源映射": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" },
+        "minItems": 1
+      }
+    },
+    "通用降级": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "冲突处理": {
+      "type": "object",
+      "required": ["规则", "记录", "兜底"],
+      "additionalProperties": false,
+      "properties": {
+        "规则": { "type": "string" },
+        "记录": { "type": "string" },
+        "兜底": { "type": "string" }
+      }
+    },
+    "降级链": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

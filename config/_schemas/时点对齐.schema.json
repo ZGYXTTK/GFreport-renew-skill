@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "时点对齐.json",
+  "description": "各源数据时点 → 目标时点",
+  "type": "object",
+  "required": ["version", "目标时点", "源时点"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "目标时点": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "源时点": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "每个数据源的原数据时点与对齐策略"
+    },
+    "正文脚注": { "type": "string", "description": "首页脚注写明采集日 + 目标时点" }
+  }
+}
