@@ -1,0 +1,44 @@
+{
+  "name": "gfreport-renew-skill",
+  "version": "0.2.0",
+  "description": "广发证券行业月报端到端生成：以上期月报 docx 为模板，按月重采数据、保留格式改写、11 道门禁校验（含真·docx 数值回读、跨月去重、哈希绑定）、强制镜像到当前对话工作区。",
+  "author": {
+    "name": "gfreport-renew-skill-builder"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/ZGYXTTK/GFreport-renew-skill",
+  "repository": "https://github.com/ZGYXTTK/GFreport-renew-skill.git",
+  "keywords": [
+    "report-generation",
+    "monthly-report",
+    "industry-analysis",
+    "sell-side-research",
+    "docx",
+    "数据流审计",
+    "格式保真",
+    "溯源"
+  ],
+  "skills": [
+    {
+      "name": "gfreport-renew-skill",
+      "path": "SKILL.md"
+    }
+  ],
+  "commands": [
+    {
+      "name": "renew",
+      "description": "端到端运行流水线（数据流审计 → 11 道门禁 → 工作区镜像）",
+      "path": "scripts/run_pipeline.py"
+    },
+    {
+      "name": "channel-health",
+      "description": "通道健康度自检（HTTP 直探 + MCP/agent 实测回写校验）",
+      "path": "scripts/channel_health.py"
+    },
+    {
+      "name": "eval",
+      "description": "回归测试（fixtures 正负双向冒烟 + 门禁结构检查）",
+      "path": "scripts/run_evals.py"
+    }
+  ]
+}
