@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "sources": [
     {
       "name": "QVeris",
@@ -17,6 +17,12 @@
       "name": "hexin-ifind-ds (同花顺iFinD)",
       "kind": "api",
       "tools": ["get_stock_summary", "get_stock_financials", "get_stock_performance", "search_stocks", "get_stock_info", "get_stock_events", "get_stock_shareholders", "get_risk_indicators", "get_esg_data", "stock_highfreq_quotes", "search_news", "search_notice"]
+    },
+    {
+      "name": "ifind-quant HTTP (iFinD量化接口·本地脚本)",
+      "kind": "http",
+      "tools": ["ifind-quant/ifind_api.py: ths_basic_data/ths_date_sequence/ths_history_quotes/ths_high_frequency/ths_realtime/ths_snapshot/ths_edb", "ifind-quant/smoke_test.py", "ifind-quant/collect_core.py"],
+      "note": "同花顺官方云端量化接口(quantapi.51ifind.com)，refresh_token 鉴权，无需客户端常驻；批量财务/行情/EDB 时点型重采主力；token 在 ifind-quant/credentials.json；smoke: python ifind-quant/smoke_test.py；一键重采: collect_core.py --pack <pack> --ym <YYYY-MM>"
     },
     {
       "name": "wind_stock_data",
