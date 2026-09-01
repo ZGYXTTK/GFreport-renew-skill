@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-08-31T23:31:09",
+  "results": [
+    {
+      "id": "format_diff_threshold",
+      "passed": true,
+      "criticality": "hard"
+    },
+    {
+      "id": "all_gates_pass",
+      "passed": true,
+      "criticality": "hard"
+    },
+    {
+      "id": "verify_value_zero_bad",
+      "passed": true,
+      "criticality": "hard"
+    },
+    {
+      "id": "traceability_cross_check",
+      "passed": true,
+      "criticality": "hard"
+    },
+    {
+      "id": "archive_done",
+      "passed": true,
+      "criticality": "hard"
+    }
+  ]
+}

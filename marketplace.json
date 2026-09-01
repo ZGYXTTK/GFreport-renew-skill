@@ -1,0 +1,13 @@
+{
+  "name": "gfreport-renew-skill",
+  "version": "0.2.0",
+  "owner": "gfreport-renew-skill-builder",
+  "description": "团队级 marketplace 注册：gfreport-renew-skill（11 道门禁月报流水线）",
+  "plugins": [
+    {
+      "path": ".",
+      "name": "gfreport-renew-skill",
+      "version": "0.2.0"
+    }
+  ]
+}
