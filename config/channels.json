@@ -2,6 +2,10 @@
   "version": "1.1",
   "last_verified": {
     "ifind-quant HTTP": "2026-09-01（collect 试点 aerospace+robotics 全 PASS）",
+    "ifind MCP(edb/fund/bond/index/global_stock/future)": "2026-09-02（六类 smoke 全 PASS，经 call-node.js）",
+    "ifind HTTP(date_sequence/high_frequency/snap_shot/get_thscode)": "2026-09-02（全 PASS；snap_shot 单次 dataVol=4880 慎用）",
+    "ifind HTTP(edb_service)": "2026-09-02（-4318 配额未恢复，待客户端重取 refresh_token）",
+    "ifind Excel插件 UDF(THS_RQ/THS_DS)": "2026-09-02（函数已识别，ThsFunc.xla 已启用，异步回填待人工 Excel 验证）",
     "上交所": "2026-08-27",
     "深交所": "2026-08-27",
     "证监会": "2026-08-27",

@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "溯源.jsonl",
+  "description": "每行一条溯源记录（数值类必须带锚点）",
+  "type": "object",
+  "required": ["cell", "value"],
+  "additionalProperties": false,
+  "properties": {
+    "cell": { "type": "string", "description": "月报中位置（如「表8!R2」或「P42」）" },
+    "value": { "type": ["string", "number", "null"], "description": "月报呈现值" },
+    "source_file": { "type": "string", "description": "源 CSV 相对路径（base-dir 锚定）" },
+    "url": { "type": "string", "format": "uri", "description": "网页来源（与 source_file 二选一）" },
+    "snapshot": { "type": "string", "description": "网页快照存档路径" },
+    "source_key": { "type": "string", "description": "源文件中键列值（公司名/标的 ID）" },
+    "source_key_col": { "type": "string", "description": "键列名（默认首列）" },
+    "source_field": { "type": "string", "description": "源文件中字段名（表头）" },
+    "source_row": { "type": "integer", "minimum": 1, "description": "1-based 数据行号" },
+    "source_page": { "type": "integer", "minimum": 1, "description": "招股书 PDF 页码（专题）" },
+    "status": { "enum": ["verified", "cross-checked", "gap"], "description": "verified=已回读通过；cross-checked=已交叉验证；gap=已申报缺口" },
+    "cross_checked": { "type": "array", "items": { "type": "string" }, "description": "已交叉验证的源名列表" },
+    "as_of": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "数据时点" },
+    "conflict": { "type": "object", "description": "冲突记录 {内容/采用源/理由}" }
+  }
+}
